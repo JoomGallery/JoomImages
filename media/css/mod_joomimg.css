@@ -1,0 +1,15 @@
+.joomimg_clr{
+  clear:both;
+}
+.joomimg_row{
+  overflow:hidden;
+  padding:0.5em 0;
+}
+.joomimg_row ul{
+  padding-left:0;
+  margin-left:0;
+}
+.joomimg_row ul li{
+  list-style:none;
+  background:none;
+}

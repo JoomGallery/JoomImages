@@ -7,7 +7,7 @@
   <license>This module is released under the GNU/GPL License</license>
   <authorEmail>team@joomgallery.net</authorEmail>
   <authorUrl>www.joomgallery.net</authorUrl>
-  <version>3.1</version>
+  <version>3.2.1</version>
   <description>MOD_JOOMIMG_DESC</description>
   <files>
     <filename module="mod_joomimg">mod_joomimg.php</filename>

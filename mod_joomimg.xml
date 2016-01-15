@@ -108,6 +108,10 @@
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>    
+      <field class="btn-group" name="showfeatured" type="radio" default="0" label="JISHWFEATURED" description="JISHWFEATUREDDESC">
+        <option value="0">JINO</option>
+        <option value="1">JIYES</option>
+      </field>  
       <field name="votesctsel" type="text" default="" label="JIVOTESCTSEL" description="JIVOTESCTSELDESCR" />
     </fieldset>
     <fieldset name="JIGROUPDEFAULTVIEW">

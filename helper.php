@@ -148,6 +148,7 @@ class modJoomImagesHelper extends joominterface
     $this->addConfig('includesubcats', $params->get('includesubcats', 0));
     $this->addConfig('dynamiccats', $params->get('dynamiccats', 0));
     $this->addConfig('showhidden', $params->get('showhidden', 0));
+    $this->addConfig('showfeatured', $params->get('showfeatured', 0));
     if(is_numeric($params->get('votesctsel')) && $params->get('votesctsel') >= 0)
     {
       $this->addConfig('votesctsel', $params->get('votesctsel', -1));
@@ -479,6 +480,12 @@ class modJoomImagesHelper extends joominterface
       $query->where('c.hidden    = 0');
       $query->where('c.in_hidden = 0');
       $query->where('p.hidden    = 0');
+    }
+
+    // Show only featured images
+    if($this->getConfig('showfeatured'))
+    {
+      $query->where('p.featured  = 1');
     }
 
     // Show only images with votes = x

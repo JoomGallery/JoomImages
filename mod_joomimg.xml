@@ -2,12 +2,12 @@
 <extension type="module" version="3.0" client="site" method="upgrade">
   <name>mod_joomimg</name>
   <author>JoomGallery::Project Team</author>
-  <creationDate>13.05.2015</creationDate>
-  <copyright>(C) 2009 - 2015 JoomGallery::Project Team</copyright>
+  <creationDate>31.05.2015</creationDate>
+  <copyright>(C) 2009 - 2016 JoomGallery::Project Team</copyright>
   <license>This module is released under the GNU/GPL License</license>
   <authorEmail>team@joomgallery.net</authorEmail>
   <authorUrl>www.joomgallery.net</authorUrl>
-  <version>3.2.1</version>
+  <version>3.3.0</version>
   <description>MOD_JOOMIMG_DESC</description>
   <files>
     <filename module="mod_joomimg">mod_joomimg.php</filename>

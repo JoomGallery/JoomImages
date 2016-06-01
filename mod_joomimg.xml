@@ -115,6 +115,12 @@
       <field name="votesctsel" type="text" default="" label="JIVOTESCTSEL" description="JIVOTESCTSELDESCR" />
     </fieldset>
     <fieldset name="JIGROUPDEFAULTVIEW">
+      <field class="btn-group" name="responsive" type="radio" default="0" label="JIRESPONSIVE" description="JIRESPONSIVEDESC">
+        <option value="0">JINO</option>
+        <option value="1">JIYES</option>
+      </field>
+	  <field name="responisve_maxheight" type="text" default="150" label="JIRESPONSIVEMAXHEIGHT" description="JIRESPONSIVEMAXHEIGHTDESC"/>
+	  <field name="mag_first_image" type="text" default="2.00" label="JIMAGNFIRSTIMAGE" description="JIMAGNFIRSTIMAGEDESC"/>
       <field name="img_per_row" type="text" default="2" label="JICOUNTCOL" description="JICOUNTCOLDESC"/>
       <field class="btn-group" name="pagination" type="radio" default="0" label="JIPAGINATION" description="JIPAGINATIONDESCR">
         <option value="0">JINO</option>

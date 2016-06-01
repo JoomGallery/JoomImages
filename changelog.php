@@ -23,6 +23,11 @@ Legende / Legend:
 - -> Removed
 ! -> Note
 
+***     Version 3.3                  ***
+# Improvements in language files
++ Option for filtering images based on 'featured' status
+
+
 ***     Version 3.0                  ***
 # slideshow options to show image title and image text not
   working as expected

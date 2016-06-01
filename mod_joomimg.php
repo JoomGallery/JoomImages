@@ -42,9 +42,9 @@ $moduleid = $module->id;
 // Create helper object
 $joomimgObj = new modJoomImagesHelper();
 
-if($joomimgObj->getGalleryVersion() < "3.0")
+if($joomimgObj->getGalleryVersion() < "3.3")
 {
-  echo JText::sprintf('JIJOOMGALLERY_NOT_UPTODATE', '3.0');
+  echo JText::sprintf('JIJOOMGALLERY_NOT_UPTODATE', '3.3');
   return;
 }
 

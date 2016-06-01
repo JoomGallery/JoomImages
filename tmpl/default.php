@@ -50,13 +50,13 @@ if($joomimgObj->getConfig('pagination') && $joomimgObj->getConfig('paginationpos
 <?php
 endif;
 
+$imgct=0;
+if($countobjects > 0):
 // First row
 ?>
   <div class="<?php echo $rowclass;?>">
 
 <?php
-$imgct=0;
-if($countobjects > 0):
   foreach($imgobjects as $obj):
     $imgct++;
     if ($joomimgObj->getConfig('pagination')

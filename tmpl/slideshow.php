@@ -3,22 +3,9 @@
 // $Id: slideshow.php 4411 2014-07-12 08:45:56Z erftralle $
 defined('_JEXEC') or die('Restricted access');
 
-$csstag=$joomimgObj->getConfig("csstag");
+$csstag = $joomimgObj->getConfig("csstag");
 
 $imageType  = $joomimgObj->getConfig('type');
-
-$doc =JURI::base( true );
-switch ($imageType):
-  case 'img':
-    $imagePath=$doc."/".$joomimgObj->getJConfig('jg_pathimages');
-    break;
-  case 'orig':
-    $imagePath=$doc."/".$joomimgObj->getJConfig('jg_pathoriginalimages');
-    break;
-  default:
-    $imagePath=$doc."/".$joomimgObj->getJConfig('jg_paththumbs');
-    break;
-endswitch;
 
 $showLink         = $joomimgObj->getConfig('piclinkslideshow');
 $showCaption      = $joomimgObj->getConfig('showCaption');
@@ -73,7 +60,7 @@ $firstimg = true;
 <?php
       endif;
 ?>
-      '<?php echo $imagePath.$img->catpath."/".$img->imgthumbname; ?>':
+      '<?php echo $joomimgObj->route($joomimgObj->getAmbit()->getImg($imageType.'_url', $img, null, 0, false), false); ?>':
       {
 <?php
       $caption = '';

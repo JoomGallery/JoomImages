@@ -46,81 +46,89 @@ class modJoomImagesHelper extends joominterface
     // Get the images
     $objects = $this->getDBImages();
 
-    // *** Slideshow ***
-    if($this->getConfig('slideshowthis') == 1)
+    switch($this->getConfig('slideshowthis'))
     {
-      // Includes CSS of slideshow
-      $doc->addStyleSheet(JURI::base().'media/mod_joomimg/css/slideshow.css');
+      // *** Slideshow ***
+      case 1:
+        // Includes CSS of slideshow
+        $doc->addStyleSheet(JURI::base().'media/mod_joomimg/css/slideshow.css');
 
-      // Include javascripts
-      JHtml::_('behavior.framework', true);
-      $doc->addScript(JURI::base().'media/mod_joomimg/js/slideshow.js');
+        // Include javascripts
+        JHtml::_('behavior.framework', true);
+        $doc->addScript(JURI::base().'media/mod_joomimg/js/slideshow.js');
 
-      $transtype = $this->getConfig('transType');
-      switch($transtype)
-      {
-        case 'flash':
-          $doc->addScript(JURI::base().'media/mod_joomimg/js/slideshow.flash.js');
-          break;
-        case 'fold':
-          $doc->addScript(JURI::base().'media/mod_joomimg/js/slideshow.fold.js');
-          break;
-        case 'kenburns':
-          $doc->addScript(JURI::base().'media/mod_joomimg/js/slideshow.kenburns.js');
-          break;
-        case 'push':
-          $doc->addScript(JURI::base().'media/mod_joomimg/js/slideshow.push.js');
+        $transtype = $this->getConfig('transType');
+        switch($transtype)
+        {
+          case 'flash':
+            $doc->addScript(JURI::base().'media/mod_joomimg/js/slideshow.flash.js');
+            break;
+          case 'fold':
+            $doc->addScript(JURI::base().'media/mod_joomimg/js/slideshow.fold.js');
+            break;
+          case 'kenburns':
+            $doc->addScript(JURI::base().'media/mod_joomimg/js/slideshow.kenburns.js');
+            break;
+          case 'push':
+            $doc->addScript(JURI::base().'media/mod_joomimg/js/slideshow.push.js');
+            break;
+          default:
+            break;
+        }
+
+        // Set the width of slideshow per CSS
+        $cssslidewidth  = '#slideshow'.$moduleid.' {'."\n";
+        $cssslidewidth .= '  width: '.$this->getConfig("width").'px;'."\n";
+        $cssslidewidth .= '}'."\n";
+
+        // Set the height of text field, font size of text, color of text and backgrond color
+        $cssslidewidth .= '.slideshow-captions-visible{'."\n";
+        $cssslidewidth .= '  height: '.$this->getConfig("heightCaption").' !important;'."\n";
+        $cssslidewidth .= '  font-size: '.$this->getConfig("titleSize").' !important;'."\n";
+        $cssslidewidth .= '  color: '.$this->getConfig("titleColor").' !important;'."\n";
+        $cssslidewidth .= '  background: '.$this->getConfig("titleBGColor").' !important;'."\n";
+        $cssslidewidth .= '}'."\n";
+
+
+        $doc->addStyleDeclaration($cssslidewidth);
+        break;
+        // Justified gallery view
+        case 2:
+          $this->modContent($objects);
           break;
         default:
-          break;
-      }
+        // Include CSS files of JoomGallery
+        $this->getPageHeader();
 
-      // Set the width of slideshow per CSS
-      $cssslidewidth  = '#slideshow'.$moduleid.' {'."\n";
-      $cssslidewidth .= '  width: '.$this->getConfig("width").'px;'."\n";
-      $cssslidewidth .= '}'."\n";
+        // Modify content of images for default view
+        $this->modContent($objects);
 
-      // Set the height of text field, font size of text, color of text and backgrond color
-      $cssslidewidth .= '.slideshow-captions-visible{'."\n";
-      $cssslidewidth .= '  height: '.$this->getConfig("heightCaption").' !important;'."\n";
-      $cssslidewidth .= '  font-size: '.$this->getConfig("titleSize").' !important;'."\n";
-      $cssslidewidth .= '  color: '.$this->getConfig("titleColor").' !important;'."\n";
-      $cssslidewidth .= '  background: '.$this->getConfig("titleBGColor").' !important;'."\n";
-      $cssslidewidth .= '}'."\n";
+        // Include Pagination javascript if activated
+        if($this->getConfig('pagination'))
+        {
+          JHtml::_('behavior.framework', true);
+          $doc->addScript(JURI::base().'media/mod_joomimg/js/pagination.js');
 
+          $jsstart="window.addEvent('domready', function(){
+            var joomimgpagination$moduleid = new JoomImgPagination(
+            {
+              moduleid:$moduleid,
+              pagpersite: ".$this->getConfig('paginationct').",
+              csstag: '".$this->getConfig('csstag')."'
+              });
+          });";
+          $doc->addScriptDeclaration($jsstart);
+        }
 
-      $doc->addStyleDeclaration($cssslidewidth);
+        // Create and include the dynamic css for default view
+        // according to backend settings
+        $this->renderCSS();
+        break;
     }
-    else
-    {
-      // Include CSS files of JoomGallery
-      $this->getPageHeader();
 
-      // Modify content of images for default view
-      $this->modContent($objects);
-
-      // Include Pagination javascript if activated
-      if($this->getConfig('pagination'))
-      {
-        JHtml::_('behavior.framework', true);
-        $doc->addScript(JURI::base().'media/mod_joomimg/js/pagination.js');
-
-        $jsstart="window.addEvent('domready', function(){
-          var joomimgpagination$moduleid = new JoomImgPagination(
-          {
-            moduleid:$moduleid,
-            pagpersite: ".$this->getConfig('paginationct').",
-            csstag: '".$this->getConfig('csstag')."'
-            });
-        });";
-        $doc->addScriptDeclaration($jsstart);
-      }
-      // Create and include the dynamic css for default view
-      // according to backend settings
-      $this->renderCSS();
-    }
     // Include common css
     $doc->addStyleSheet(JURI::base().'media/mod_joomimg/css/mod_joomimg.css');
+
     return $objects;
   }
 
@@ -284,6 +292,14 @@ class modJoomImagesHelper extends joominterface
     $this->addConfig('borderstyle', $params->get('borderstyle', 'solid'));
     $this->addConfig('bordercolor', $params->get('bordercolor', '#000'));
     $this->addConfig('borderpadding', $params->get('borderpadding', '2px'));
+
+    // Justified gallery
+    $this->addConfig('justifiedrowheight', $params->get('justifiedrowheight', 150));
+    $this->addConfig('justifiedmaxrowheight', $params->get('justifiedmaxrowheight', -1));
+    $this->addConfig('justifiedlastrow', $params->get('justifiedlastrow', 'nojustify'));
+    $this->addConfig('justifiedcaptions', $params->get('justifiedcaptions', 0) ? 'true' : 'false');
+    $this->addConfig('justifiedmargins', $params->get('justifiedmargins', 1));
+    $this->addConfig('justifiedborder', $params->get('justifiedborder', -1));
   }
 
   /**
@@ -744,38 +760,42 @@ class modJoomImagesHelper extends joominterface
    */
   function modContent(&$objects)
   {
-    $csstag = $this->getConfig("csstag");
-    $imgcount = 0;
+    $csstag           = $this->getConfig("csstag");
+    $isJustifiedView  = $this->getConfig('slideshowthis') == 2 ? true : false;
+
     if(!count($objects))
     {
       return;
     }
+
     foreach($objects as $key => $obj)
     {
-      $imgcount++;
-      // Wordwrap for imgtitle
-      if($this->getConfig('strtitlewrap') > 0)
+      if(!$isJustifiedView)
       {
-        $objects[$key]->imgtitle = wordwrap($obj->imgtitle,$this->getConfig('strtitlewrap'),'<br />', true);
-      }
-
-      // Shorten the image description
-      if(    $this->getConfig('strdescount') > 0
-          && isset($obj->imgtext) && strlen($obj->imgtext)>0
-        )
-      {
-        if(strlen($obj->imgtext) > $this->getConfig('strdescount'))
+        // Wordwrap for imgtitle
+        if($this->getConfig('strtitlewrap') > 0)
         {
-          $objects[$key]->imgtext = substr(strip_tags($objects[$key]->imgtext), 0, $this->getConfig('strdescount')).'&hellip;';
+          $objects[$key]->imgtitle = wordwrap($obj->imgtitle,$this->getConfig('strtitlewrap'),'<br />', true);
         }
-      }
 
-     // Wordwrap for image description
-      if(    $this->getConfig('strdeswrap') > 0
-          && isset($obj->imgtext) && strlen($obj->imgtext) > 0
-        )
-      {
-        $objects[$key]->imgtext = wordwrap(strip_tags($obj->imgtext), $this->getConfig('strdeswrap'), '<br />', true);
+        // Shorten the image description
+        if(    $this->getConfig('strdescount') > 0
+            && isset($obj->imgtext) && strlen($obj->imgtext)>0
+          )
+        {
+          if(strlen($obj->imgtext) > $this->getConfig('strdescount'))
+          {
+            $objects[$key]->imgtext = substr(strip_tags($objects[$key]->imgtext), 0, $this->getConfig('strdescount')).'&hellip;';
+          }
+        }
+
+       // Wordwrap for image description
+        if(    $this->getConfig('strdeswrap') > 0
+            && isset($obj->imgtext) && strlen($obj->imgtext) > 0
+          )
+        {
+          $objects[$key]->imgtext = wordwrap(strip_tags($obj->imgtext), $this->getConfig('strdeswrap'), '<br />', true);
+        }
       }
 
       // Check for link to category
@@ -791,7 +811,8 @@ class modJoomImagesHelper extends joominterface
 
       // Get the image dimensions to set the CSS width/height styles
       $objects[$key]->css_styledimension = '';
-      if($this->getConfig('image_position') != 0)
+
+      if($this->getConfig('image_position') != 0 || $isJustifiedView)
       {
         switch($this->getConfig('type'))
         {
@@ -812,10 +833,10 @@ class modJoomImagesHelper extends joominterface
 
         // Set the CSS width/height styles
         // in case of auto_resize determine the max settings with keeping the ratio
-        if($this->getConfig('auto_resize'))
+        if($this->getConfig('auto_resize') && !$isJustifiedView)
         {
           // Get the max dimension
-          $maxdim=(int) $this->getConfig('auto_resize_max');
+          $maxdim = (int) $this->getConfig('auto_resize_max');
 
           if($imgWidth > $imgHeight)
           {
@@ -845,7 +866,7 @@ class modJoomImagesHelper extends joominterface
           $cropsizeheight = $this->getConfig('crop_sizeheight');
           $imgHeight      = $cropsizeheight;
           $imgWidth       = $cropsizewidth;
-          $croppos   = $this->getConfig('crop_pos');
+          $croppos        = $this->getConfig('crop_pos');
           $objects[$key]->imagesource = $this->route($this->_ambit->getImg($this->getConfig('type').'_url', $obj,null,0,false,$cropsizewidth, $cropsizeheight, $croppos));
         }
         else
@@ -861,89 +882,113 @@ class modJoomImagesHelper extends joominterface
           .'px;" ';
       }
 
-      switch ($this->getConfig('image_position'))
+      if(!$isJustifiedView)
       {
-        case 0:
-          // No image
-          $objecttxt=$this->showText($obj);
-          if(!empty($objecttxt))
-          {
-            $objects[$key]->imgelem = '<div class="'.$csstag.'txt">'."\n"
-                                     .$objecttxt."\n"
-                                     .'</div>'."\n";
-          }
-          else
-          {
-            $objects[$key]->imgelem = '';
-          }
-          break;
-        case 1:
-        case 2:
-        case 3:
-          // Image above (1) or left (2) or right(3) to text
-          $objects[$key]->imgelem = '<div class="'.$csstag.'img">'."\n";
-          if($this->getConfig('setjilink'))
-          {
-            $objects[$key]->imgelem .= '  <a href="'.$obj->link.'" >';
-          }
+        switch($this->getConfig('image_position'))
+        {
+          case 0:
+            // No image
+            $objecttxt=$this->showText($obj);
+            if(!empty($objecttxt))
+            {
+              $objects[$key]->imgelem = '<div class="'.$csstag.'txt">'."\n"
+                                       .$objecttxt."\n"
+                                       .'</div>'."\n";
+            }
+            else
+            {
+              $objects[$key]->imgelem = '';
+            }
+            break;
+          case 1:
+          case 2:
+          case 3:
+            // Image above (1) or left (2) or right(3) to text
+            $objects[$key]->imgelem = '<div class="'.$csstag.'img">'."\n";
+            if($this->getConfig('setjilink'))
+            {
+              $objects[$key]->imgelem .= '  <a href="'.$obj->link.'" >';
+            }
 
-          $objects[$key]->imgelem .= '    <img src="'
-                   .$obj->imagesource.'"'
-                   .$obj->css_styledimension
-                   .' alt="'
-                   .$obj->imgtitle.'"'
-                   .' title="'
-                   .$obj->imgtitle.'" />';
+            $objects[$key]->imgelem .= '    <img src="'
+                     .$obj->imagesource.'"'
+                     .$obj->css_styledimension
+                     .' alt="'
+                     .$obj->imgtitle.'"'
+                     .' title="'
+                     .$obj->imgtitle.'" />';
 
-          if($this->getConfig('setjilink'))
-          {
-            $objects[$key]->imgelem .= '  </a>';
-          }
-          $objects[$key]->imgelem .= '</div>'."\n";
+            if($this->getConfig('setjilink'))
+            {
+              $objects[$key]->imgelem .= '  </a>';
+            }
+            $objects[$key]->imgelem .= '</div>'."\n";
 
-          $objecttxt=$this->showText($obj);
-          if(!empty($objecttxt))
-          {
-            $objects[$key]->imgelem .= '<div class="'.$csstag.'txt">'."\n"
-                                     .$objecttxt."\n"
-                                     .'</div>'."\n";
-          }
-          break;
-        case 4:
-          //image below text
-          //delete the  / from catpath
-          $catpath = trim($obj->catpath, '/');
-          $objecttxt=$this->showText($obj);
-          if(!empty($objecttxt))
-          {
-            $objects[$key]->imgelem .= '<div class="'.$csstag.'txt">'."\n"
-                                     .$objecttxt."\n"
-                                     .'</div>'."\n";
-          }
-          $objects[$key]->imgelem .= '<div class="'.$csstag.'img">'."\n";
-          if($this->getConfig('setjilink'))
-          {
-            $objects[$key]->imgelem .= '  <a title="'.$obj->imgtitle.'" href="'.$obj->link.'" >';
-          }
+            $objecttxt=$this->showText($obj);
+            if(!empty($objecttxt))
+            {
+              $objects[$key]->imgelem .= '<div class="'.$csstag.'txt">'."\n"
+                                       .$objecttxt."\n"
+                                       .'</div>'."\n";
+            }
+            break;
+          case 4:
+            //image below text
+            //delete the  / from catpath
+            $catpath = trim($obj->catpath, '/');
+            $objecttxt=$this->showText($obj);
+            if(!empty($objecttxt))
+            {
+              $objects[$key]->imgelem .= '<div class="'.$csstag.'txt">'."\n"
+                                       .$objecttxt."\n"
+                                       .'</div>'."\n";
+            }
+            $objects[$key]->imgelem .= '<div class="'.$csstag.'img">'."\n";
+            if($this->getConfig('setjilink'))
+            {
+              $objects[$key]->imgelem .= '  <a title="'.$obj->imgtitle.'" href="'.$obj->link.'" >';
+            }
 
-          $objects[$key]->imgelem .= '    <img src="'
-                   .$obj->imagesource.'"'
-                   .$obj->css_styledimension
-                   .' alt="'
-                   .$obj->imgtitle.'"'
-                   .' title="'
-                   .$obj->imgtitle.'" />';
+            $objects[$key]->imgelem .= '    <img src="'
+                     .$obj->imagesource.'"'
+                     .$obj->css_styledimension
+                     .' alt="'
+                     .$obj->imgtitle.'"'
+                     .' title="'
+                     .$obj->imgtitle.'" />';
 
-          if($this->getConfig('setjilink'))
-          {
-            $objects[$key]->imgelem .= '  </a>';
-          }
-          $objects[$key]->imgelem .= '</div>'."\n";
-          break;
+            if($this->getConfig('setjilink'))
+            {
+              $objects[$key]->imgelem .= '  </a>';
+            }
+            $objects[$key]->imgelem .= '</div>'."\n";
+            break;
+        }
+      }
+      else
+      {
+        // Justified view
+        if($this->getConfig('setjilink'))
+        {
+          $objects[$key]->imgelem = '  <a title="'.$obj->imgtitle.'" href="'.$obj->link.'" >';
+        }
+
+        $objects[$key]->imgelem .= '    <img src="'
+                 .$obj->imagesource.'"'
+                 .$obj->css_styledimension
+                 .' alt="'
+                 .$obj->imgtitle.'"'
+                 .' title="'
+                 .$obj->imgtitle.'" />';
+
+        if($this->getConfig('setjilink'))
+        {
+          $objects[$key]->imgelem .= '  </a>';
+        }
       }
 
       // Check for pagination
-      if ($this->getConfig('pagination'))
+      if ($this->getConfig('pagination') && !$isJustifiedView)
       {
         // If slimbox/thickbox/plugin activated, remove the parts of <a> tag
         // which could trigger the box, so only the hidden elements should be

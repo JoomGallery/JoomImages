@@ -49,17 +49,22 @@ if($joomimgObj->getGalleryVersion() < "3.3")
 }
 
 // Fill the interface object and get the images
-$imgobjects = $joomimgObj->fillObject($params,$moduleid);
+$imgobjects = $joomimgObj->fillObject($params, $moduleid);
 
-// Get slideshow or default view
-if($joomimgObj->getConfig('slideshowthis') == 1)
+// Get view
+switch((int)$joomimgObj->getConfig('slideshowthis'))
 {
-  $path = JModuleHelper::getLayoutPath('mod_joomimg', 'slideshow');
+  case 1:
+    $path = JModuleHelper::getLayoutPath('mod_joomimg', 'slideshow');
+    break;
+  case 2:
+    $path = JModuleHelper::getLayoutPath('mod_joomimg', 'justified');
+    break;
+  default:
+    $path = JModuleHelper::getLayoutPath('mod_joomimg', 'default');
+    break;
 }
-else
-{
-  $path = JModuleHelper::getLayoutPath('mod_joomimg', 'default');
-}
+
 if(JFile::exists($path))
 {
   require $path;

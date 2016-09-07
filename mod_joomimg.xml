@@ -15,6 +15,7 @@
     <filename>index.html</filename>
     <filename>changelog.php</filename>
     <filename>tmpl/default.php</filename>
+    <filename>tmpl/justified.php</filename>
     <filename>tmpl/slideshow.php</filename>
     <filename>tmpl/index.html</filename>
   </files>

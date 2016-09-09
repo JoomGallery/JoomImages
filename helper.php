@@ -946,7 +946,7 @@ class modJoomImagesHelper extends joominterface
             $objects[$key]->imgelem .= '<div class="'.$csstag.'img">'."\n";
             if($this->getConfig('setjilink'))
             {
-              $objects[$key]->imgelem .= '  <a title="'.$obj->imgtitle.'" href="'.$obj->link.'" >';
+              $objects[$key]->imgelem .= '  <a href="'.$obj->link.'" >';
             }
 
             $objects[$key]->imgelem .= '    <img src="'
@@ -970,7 +970,7 @@ class modJoomImagesHelper extends joominterface
         // Justified view
         if($this->getConfig('setjilink'))
         {
-          $objects[$key]->imgelem = '  <a title="'.$obj->imgtitle.'" href="'.$obj->link.'" >';
+          $objects[$key]->imgelem = '  <a href="'.$obj->link.'" >';
         }
 
         $objects[$key]->imgelem .= '    <img src="'

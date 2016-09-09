@@ -15,6 +15,7 @@
     <filename>index.html</filename>
     <filename>changelog.php</filename>
     <filename>tmpl/default.php</filename>
+    <filename>tmpl/justified.php</filename>
     <filename>tmpl/slideshow.php</filename>
     <filename>tmpl/index.html</filename>
   </files>
@@ -40,8 +41,9 @@
       </field>
       <field name="Itemid" type="text" default="" label="JIITEMID" description="JIITEMIDDESC" />
       <field name="slideshowthis" type="radio" default="0" label="JICHOOSEVIEW" description="JICHOOSEVIEWDESC">
-        <option value="0">Default</option>
-        <option value="1">Slideshow</option>
+        <option value="0">JICHOOSEVIEWDEFAULT</option>
+        <option value="2">JICHOOSEVIEWJUSTIFIED</option>
+        <option value="1">JICHOOSEVIEWSLIDESHOW</option>
       </field>
       <field name="type" type="list" default="9" label="JITYPIMG" description="JITYPIMGDESC" >
         <option value="thumb">Thumbnails</option>
@@ -115,13 +117,13 @@
       <field name="votesctsel" type="text" default="" label="JIVOTESCTSEL" description="JIVOTESCTSELDESCR" />
     </fieldset>
     <fieldset name="JIGROUPDEFAULTVIEW">
-      <field name="img_per_row" type="text" default="2" label="JICOUNTCOL" description="JICOUNTCOLDESC"/>
-      <field class="btn-group" name="pagination" type="radio" default="0" label="JIPAGINATION" description="JIPAGINATIONDESCR">
+      <field name="img_per_row" type="text" default="2" label="JICOUNTCOL" description="JICOUNTCOLDESC" showon="slideshowthis:0" />
+      <field class="btn-group" name="pagination" type="radio" default="0" label="JIPAGINATION" description="JIPAGINATIONDESCR" showon="slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="paginationct" type="text" default="2" label="JIPAGINATIONCT" description="JIPAGINATIONCTDESCR"/>
-      <field name="paginationpos" type="list" default="0" label="JIPAGINATIONPOS" description="JIPAGINATIONPOSDESCR">
+      <field name="paginationct" type="text" default="2" label="JIPAGINATIONCT" description="JIPAGINATIONCTDESCR" showon="pagination:1[AND]slideshowthis:0"/>
+      <field name="paginationpos" type="list" default="0" label="JIPAGINATIONPOS" description="JIPAGINATIONPOSDESCR" showon="pagination:1[AND]slideshowthis:0">
         <option value="0">JIABOVE</option>
         <option value="1">JIBELOW</option>
       </field>
@@ -137,137 +139,137 @@
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="image_position" type="list" default="1" label="JIPOSPIC" description="JIPOSPICDESCR">
+      <field name="image_position" type="list" default="1" label="JIPOSPIC" description="JIPOSPICDESCR" showon="slideshowthis:0">
         <option value="0">JIPOSPICNO</option>
         <option value="1">JIPOSPICABOVE</option>
         <option value="2">JIPOSPICLEFT</option>
         <option value="3">JIPOSPICRIGHT</option>
         <option value="4">JIPOSPICBELOW</option>
       </field>
-      <field class="btn-group" name="crop_img" type="radio" default="0" label="JICROPIMG" description="JICROPIMGDESCR">
+      <field class="btn-group" name="crop_img" type="radio" default="0" label="JICROPIMG" description="JICROPIMGDESCR" showon="auto_resize:0[OR]slideshowthis:2">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="crop_pos" type="list" default="2" label="JICROPPOS" description="JICROPPOSDESCR" >
+      <field name="crop_pos" type="list" default="2" label="JICROPPOS" description="JICROPPOSDESCR" showon="crop_img:1">
         <option value="0">JICROPPOSTL</option>
         <option value="1">JICROPPOSTR</option>
         <option value="2">JICROPPOSC</option>
         <option value="3">JICROPPOSBL</option>
         <option value="4">JICROPPOSBR</option>
       </field>
-      <field name="crop_sizewidth" type="text" default="50" label="JICROPSIZEWIDTH" description="JICROPSIZEWIDTHDESCR" />
-      <field name="crop_sizeheight" type="text" default="100" label="JICROPSIZEHEIGHT" description="JICROPSIZEHEIGHTDESCR" />
-      <field class="btn-group" name="auto_resize" type="radio" default="0" label="JIAUTRES" description="JIAUTRESDESC">
+      <field name="crop_sizewidth" type="text" default="50" label="JICROPSIZEWIDTH" description="JICROPSIZEWIDTHDESCR" showon="crop_img:1"/>
+      <field name="crop_sizeheight" type="text" default="100" label="JICROPSIZEHEIGHT" description="JICROPSIZEHEIGHTDESCR" showon="crop_img:1"/>
+      <field class="btn-group" name="auto_resize" type="radio" default="0" label="JIAUTRES" description="JIAUTRESDESC" showon="crop_img:0[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="auto_resize_max" type="text" default="100" label="JIAUTRESMAX" description="JIAUTRESMAXDESC" />
-      <field name="imgwidth" type="text" default="" label="JIPICWIDTH" description="JIPIWIDTHDESCR" />
-      <field name="imgheight" type="text" default="" label="JIPICHEIGHT" description="JIPICHEIGHTDESCR" />
-      <field class="btn-group" name="showtext" type="radio" default="1" label="JITXTSHOW" description="JITXTSHOWDESCR">
+      <field name="auto_resize_max" type="text" default="100" label="JIAUTRESMAX" description="JIAUTRESMAXDESC" showon="auto_resize:1[AND]slideshowthis:0" />
+      <field name="imgwidth" type="text" default="" label="JIPICWIDTH" description="JIPIWIDTHDESCR" showon="auto_resize:0[AND]crop_img:0[AND]slideshowthis:0" />
+      <field name="imgheight" type="text" default="" label="JIPICHEIGHT" description="JIPICHEIGHTDESCR" showon="auto_resize:0[AND]crop_img:0[AND]slideshowthis:0" />
+      <field class="btn-group" name="showtext" type="radio" default="1" label="JITXTSHOW" description="JITXTSHOWDESCR" showon="slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="dateformat" type="list" default="1" label="JIDATEFORMAT" description="JIDATEFORMATDESCR">
+      <field name="dateformat" type="list" default="1" label="JIDATEFORMAT" description="JIDATEFORMATDESCR" showon="showtext:1[AND]slideshowthis:0">
         <option value="DATE_FORMAT_LC">DATE_FORMAT_LC</option>
         <option value="DATE_FORMAT_LC1">DATE_FORMAT_LC1</option>
         <option value="DATE_FORMAT_LC2">DATE_FORMAT_LC2</option>
         <option value="DATE_FORMAT_LC3">DATE_FORMAT_LC3</option>
         <option value="DATE_FORMAT_LC4">DATE_FORMAT_LC4</option>
       </field>
-      <field class="btn-group" name="showtitle" type="radio" default="1" label="JITITLESHOW" description="JITITLESHOWDESCR">
+      <field class="btn-group" name="showtitle" type="radio" default="1" label="JITITLESHOW" description="JITITLESHOWDESCR" showon="showtext:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="strtitlewrap" type="text" default="0" label="JIBREAKTITLE" description="JIBREAKTITLESHOW" />
-      <field class="btn-group" name="showdescription" type="radio" default="1" label="JIPICDESCR" description="JIPICDESCRSHOW">
+      <field name="strtitlewrap" type="text" default="0" label="JIBREAKTITLE" description="JIBREAKTITLESHOW" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0"/>
+      <field class="btn-group" name="showdescription" type="radio" default="1" label="JIPICDESCR" description="JIPICDESCRSHOW" showon="showtext:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="strdescount" type="text" default="0" label="JITXTLENGTH" description="JITXTLENGTHDESCR" />
-      <field name="strdeswrap" type="text" default="0" label="JIBREAKTXT" description="JIBREAKTXTDESCR" />
-      <field class="btn-group" name="showuser" type="radio" default="0" label="JIUSERSHOW" description="JIUSERSHOWDESCR">
+      <field name="strdescount" type="text" default="0" label="JITXTLENGTH" description="JITXTLENGTHDESCR" showon="showtext:1[AND]showdescription:1[AND]slideshowthis:0"/>
+      <field name="strdeswrap" type="text" default="0" label="JIBREAKTXT" description="JIBREAKTXTDESCR" showon="showtext:1[AND]showdescription:1[AND]slideshowthis:0"/>
+      <field class="btn-group" name="showuser" type="radio" default="0" label="JIUSERSHOW" description="JIUSERSHOWDESCR" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field class="btn-group" name="showcatg" type="radio" default="0" label="JICATSHOW" description="JICATSHOWDESCR">
+      <field class="btn-group" name="showcatg" type="radio" default="0" label="JICATSHOW" description="JICATSHOWDESCR" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field class="btn-group" name="showhits" type="radio" default="0" label="JIHITS" description="JIHITSSHOW">
+      <field class="btn-group" name="showhits" type="radio" default="0" label="JIHITS" description="JIHITSSHOW" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field class="btn-group" name="showdownloads" type="radio" default="0" label="JIDOWNLOADS" description="JIDOWNLOADSSHOW">
+      <field class="btn-group" name="showdownloads" type="radio" default="0" label="JIDOWNLOADS" description="JIDOWNLOADSSHOW" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field class="btn-group" name="showrating" type="radio" default="0" label="JIRATINGSHOW" description="JIRATINGSHOWDESCR">
+      <field class="btn-group" name="showrating" type="radio" default="0" label="JIRATINGSHOW" description="JIRATINGSHOWDESCR" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field class="btn-group" name="showimgdate" type="radio" default="0" label="JIPICDATESHOW" description="JIPICDATESHOWDESCR">
+      <field class="btn-group" name="showimgdate" type="radio" default="0" label="JIPICDATESHOW" description="JIPICDATESHOWDESCR" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field class="btn-group" name="showcmtdate" type="radio" default="0" label="JICOMMDATESHOW" description="JICOMMDATESHOWDESCR">
+      <field class="btn-group" name="showcmtdate" type="radio" default="0" label="JICOMMDATESHOW" description="JICOMMDATESHOWDESCR" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field class="btn-group" name="showcmttext" type="radio" default="0" label="JICOMMTXTSHOW" description="JICOMMTXTSHOWDESCR">
+      <field class="btn-group" name="showcmttext" type="radio" default="0" label="JICOMMTXTSHOW" description="JICOMMTXTSHOWDESCR" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field class="btn-group" name="showcmtcount" type="radio" default="0" label="JICOMMCOUNTSHOW" description="JICOMMCOUNTSHOWDESCR">
+      <field class="btn-group" name="showcmtcount" type="radio" default="0" label="JICOMMCOUNTSHOW" description="JICOMMCOUNTSHOWDESCR" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="strcmtcount" type="text" default="0" label="JICOMMTXTLENGTH" description="JICOMMTXTLENGTHDESCR"/>
-      <field name="strcmtwrap" type="text" default="0" label="JICOMMBREAK" description="JICOMMBREAKDESCR" />
-      <field class="btn-group" name="showcmtmore" type="radio" default="0" label="JICOMMLINK" description="JICOMMLINKDESCR">
+      <field name="strcmtcount" type="text" default="0" label="JICOMMTXTLENGTH" description="JICOMMTXTLENGTHDESCR" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0" />
+      <field name="strcmtwrap" type="text" default="0" label="JICOMMBREAK" description="JICOMMBREAKDESCR" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0" />
+      <field class="btn-group" name="showcmtmore" type="radio" default="0" label="JICOMMLINK" description="JICOMMLINKDESCR" showon="showtext:1[AND]showtitle:1[AND]slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field class="btn-group" name="scrollthis" type="radio" default="0" label="JIPICSCROLL" description="JIPICSCROLLDESCR">
+      <field class="btn-group" name="scrollthis" type="radio" default="0" label="JIPICSCROLL" description="JIPICSCROLLDESCR" showon="slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="scrolldirection" type="list" default="left" label="JIPICSCROLLDIR" description="JIPICSCROLLDIRDESCR">
+      <field name="scrolldirection" type="list" default="left" label="JIPICSCROLLDIR" description="JIPICSCROLLDIRDESCR" showon="slideshowthis:0[AND]scrollthis:1">
         <option value="left">JISCROLLLEFT</option>
         <option value="right">JISCROLLRIGHT</option>
         <option value="up">JISCROLLTOP</option>
         <option value="down">JISCROLLBOTTOM</option>
       </field>
-      <field name="scrollheight" type="text" default="250" label="JIPICSCROLLHEIGHT" description="JIPICSCROLLHEIGHTDESCR" />
-      <field name="scrollwidth" type="text" default="230" label="JIPICSCROLLWIDTH" description="JIPICSCROLLWIDTHDESCR" />
-      <field name="scrollamount" type="text" default="1" label="JIPICSCROLLAMOUNT" description="JIPICSCROLLAMOUNTDESCR" />
-      <field name="scrolldelay" type="text" default="10" label="JIPICSCROLLDELAY" description="JIPICSCROLLDELAYDESCR" />
-      <field class="btn-group" name="scrollmouse" type="radio" default="1" label="JIPICSCROLLMOUSESTOP" description="JIPICSCROLLMOUSESTOPDESCR">
+      <field name="scrollheight" type="text" default="250" label="JIPICSCROLLHEIGHT" description="JIPICSCROLLHEIGHTDESCR" showon="slideshowthis:0[AND]scrollthis:1"/>
+      <field name="scrollwidth" type="text" default="230" label="JIPICSCROLLWIDTH" description="JIPICSCROLLWIDTHDESCR" showon="slideshowthis:0[AND]scrollthis:1"/>
+      <field name="scrollamount" type="text" default="1" label="JIPICSCROLLAMOUNT" description="JIPICSCROLLAMOUNTDESCR" showon="slideshowthis:0[AND]scrollthis:1"/>
+      <field name="scrolldelay" type="text" default="10" label="JIPICSCROLLDELAY" description="JIPICSCROLLDELAYDESCR" showon="slideshowthis:0[AND]scrollthis:1" />
+      <field class="btn-group" name="scrollmouse" type="radio" default="1" label="JIPICSCROLLMOUSESTOP" description="JIPICSCROLLMOUSESTOPDESCR" showon="slideshowthis:0[AND]scrollthis:1">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="dir_hor" type="list" default="left" label="JITABLEHORIZ" description="JITABLEHORIZDESCR">
+      <field name="dir_hor" type="list" default="left" label="JITABLEHORIZ" description="JITABLEHORIZDESCR" showon="slideshowthis:0">
         <option value="left">JILEFT</option>
         <option value="center">JIMIDDLE</option>
         <option value="right">JIRIGHT</option>
         <option value="justify">JIJUSTIFY</option>
       </field>
-      <field name="dir_vert" type="list" default="top" label="JITABLEVERTIC" description="">
+      <field name="dir_vert" type="list" default="top" label="JITABLEVERTIC" description="" showon="slideshowthis:0">
         <option value="top">JIABOVE</option>
         <option value="middle">JIMIDDLE</option>
         <option value="bottom">JIBELOW</option>
       </field>
-      <field class="btn-group" name="sectiontableentry" type="radio" default="0" label="JISECTABLENTRY" description="JISECTABLENTRYDESCR">
+      <field class="btn-group" name="sectiontableentry" type="radio" default="0" label="JISECTABLENTRY" description="JISECTABLENTRYDESCR" showon="slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field class="btn-group" name="border" type="radio" default="0" label="JICSSBORDER" description="JICSSBORDERDESCR">
+      <field class="btn-group" name="border" type="radio" default="0" label="JICSSBORDER" description="JICSSBORDERDESCR" showon="slideshowthis:0">
         <option value="0">JINO</option>
         <option value="1">JIYES</option>
       </field>
-      <field name="bordercolor" type="color" float="none" default="#000" label="JICSSBRDCOL" description="JICSSBRDCOLDESCR" />
-      <field name="borderwidth" type="text" default="2px" label="JICSSBRDWIDTH" description="JICSSBRDWIDTHDESCR" />
-      <field name="borderstyle" type="list" default="solid" label="JICSSBRDSTYLE" description="JICSSBRDSTYLEDESCR">
+      <field name="bordercolor" type="color" float="none" default="#000" label="JICSSBRDCOL" description="JICSSBRDCOLDESCR" showon="border:1[AND]slideshowthis:0" />
+      <field name="borderwidth" type="text" default="2px" label="JICSSBRDWIDTH" description="JICSSBRDWIDTHDESCR" showon="border:1[AND]slideshowthis:0" />
+      <field name="borderstyle" type="list" default="solid" label="JICSSBRDSTYLE" description="JICSSBRDSTYLEDESCR" showon="border:1[AND]slideshowthis:0">
         <option value="solid">solid</option>
         <option value="dotted">dotted</option>
         <option value="dashed">dashed</option>
@@ -277,7 +279,22 @@
         <option value="inset">inset</option>
         <option value="outset">outset</option>
       </field>
-      <field name="borderpadding" type="text" default="2px" label="JICSSBRDPAD" description="JICSSBRDPADDESCR" />
+      <field name="borderpadding" type="text" default="2px" label="JICSSBRDPAD" description="JICSSBRDPADDESCR" showon="border:1[AND]slideshowthis:0" />
+      <field name="justifiedrowheight" type="text" default="150" label="JIJUSTIFIEDROWHEIGHT" description="JIJUSTIFIEDROWHEIGHTDESC" showon="slideshowthis:2" />      
+      <field name="justifiedmaxrowheight" type="text" default="-1" label="JIJUSTIFIEDMAXROWHEIGHT" description="JIJUSTIFIEDMAXROWHEIGHTDESC" showon="slideshowthis:2" />      
+      <field name="justifiedlastrow" type="list" default="nojustify" label="JIJUSTIFIEDLASTROW" description="JIJUSTIFIEDLASTROWDESC" showon="slideshowthis:2" >
+        <option value="nojustify">JIJUSTIFIEDLASTROWNOJUSTIFIED</option>
+        <option value="center">JIJUSTIFIEDLASTROWCENTER</option>
+        <option value="right">JIJUSTIFIEDLASTROWRIGHT</option>
+        <option value="justify">JIJUSTIFIEDLASTROWJUSTIFIED</option>
+        <option value="hide">JIJUSTIFIEDLASTROWHIDE</option>
+      </field>      
+      <field class="btn-group" name="justifiedcaptions" type="radio" default="0" label="JIJUSTIFIEDCAPTIONS" description="JIJUSTIFIEDCAPTIONSDESC">
+        <option value="0">JINO</option>
+        <option value="1">JIYES</option>
+      </field>
+      <field name="justifiedmargins" type="text" default="1" label="JIJUSTIFIEDMARGINS" description="JIJUSTIFIEDMARGINSDESC" showon="slideshowthis:2" />      
+      <field name="justifiedborder" type="text" default="-1" label="JIJUSTIFIEDBORDER" description="JIJUSTIFIEDBORDERDESC" showon="slideshowthis:2" />      
     </fieldset>
     <fieldset name="JIGROUPSLIDESHOWVIEW">
       <field name="width" type="text" default="430" label="JISLIDESHOWWIDTH" description="JISLIDESHOWWIDTDESC" />

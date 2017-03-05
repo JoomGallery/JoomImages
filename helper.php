@@ -284,6 +284,8 @@ class modJoomImagesHelper extends joominterface
     $this->addConfig('borderstyle', $params->get('borderstyle', 'solid'));
     $this->addConfig('bordercolor', $params->get('bordercolor', '#000'));
     $this->addConfig('borderpadding', $params->get('borderpadding', '2px'));
+
+    $this->addConfig('alternativeLayout', $params->get('alternativeLayout', 'default'));
   }
 
   /**

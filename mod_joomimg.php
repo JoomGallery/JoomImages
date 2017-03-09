@@ -58,7 +58,7 @@ if($joomimgObj->getConfig('slideshowthis') == 1)
 }
 else
 {
-  $path = JModuleHelper::getLayoutPath('mod_joomimg', 'default');
+  $path = JModuleHelper::getLayoutPath('mod_joomimg', $joomimgObj->getConfig('alternativeLayout'));
 }
 if(JFile::exists($path))
 {

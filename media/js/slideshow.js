@@ -324,7 +324,7 @@ Dependencies:
 			this.showed = {'array': [], 'i': 0};
 			if (typeOf(data) == 'array'){
 				this.options.captions = false;			
-				data = new Array(data.length).associate(data.map(function(image, i){ return image + '?' + i })); 
+				data = new Array(data.length).associate(data.map(function(image, i){ return image + ':' + i }));
 			}
 			this.data = {'images': [], 'captions': [], 'hrefs': [], 'thumbnails': [], 'targets': [], 'titles': []};
 			for (var image in data){
@@ -396,7 +396,7 @@ Dependencies:
 	*/
 
 		_preload: function(fast){
-			var src = this.data.images[this._slide].replace(/([^?]+).*/, '$1'),
+			var src = this.data.images[this._slide].replace(/([^:]+).*/, '$1'),
 				cached = loaded = !!this.cache[src];
 			if (!cached){
 				if (!this.preloader)
@@ -411,7 +411,7 @@ Dependencies:
 				loaded = this.preloader.retrieve('loaded') && this.preloader.get('width');
 			}
 			if (loaded && Date.now() > this.timeToNextTransition && Date.now() > this.timeToTransitionComplete){
-				var src = this.data.images[this._slide].replace(/([^?]+).*/, '$1');
+				var src = this.data.images[this._slide].replace(/([^:]+).*/, '$1');
 				if (this.preloader){
 					this.cache[src] = {
 						'height': this.preloader.get('height'),

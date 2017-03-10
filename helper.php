@@ -158,6 +158,16 @@ class modJoomImagesHelper extends joominterface
       $this->addConfig('votesctsel', -1);
     }
 
+    $this->addConfig('responsive', $params->get('responsive', 0));
+    $this->addConfig('responsive_maxheight', $params->get('responisve_maxheight', 150));
+    if(is_numeric($params->get('mag_first_image')) && $params->get('mag_first_image') >= 1)
+    {
+      $this->addConfig('mag_first_image', $params->get('mag_first_image', 2));
+    }
+    else
+    {
+      $this->addConfig('mag_first_image', 1);
+    }
     $this->addConfig('pagination', $params->get('pagination', 0));
     $this->addConfig('paginationct', $params->get('paginationct', 0));
     $this->addConfig('paginationpos', $params->get('paginationpos', 0));
@@ -856,11 +866,30 @@ class modJoomImagesHelper extends joominterface
           $objects[$key]->imagesource = $this->route($this->_ambit->getImg($this->getConfig('type').'_url', $obj,null,0,false));
         }
 
-        $objects[$key]->css_styledimension = ' style="height:'
-          .$imgHeight
-          .'px;width:'
-          .$imgWidth
-          .'px;" ';
+        // responsive view
+        if($this->getConfig('responsive') == 1)
+        {
+          if($imgcount == 1 && $this->getConfig('mag_first_image') > 1)
+          {
+            $objects[$key]->css_styledimension = ' style="max-height:'
+              .Round($this->getConfig('responsive_maxheight') * $this->getConfig('mag_first_image'), 0)
+              .'px;"';
+          }
+          else
+          {
+            $objects[$key]->css_styledimension = ' style="max-height:'
+              .$this->getConfig('responsive_maxheight')
+              .'px;"';
+          }
+        }
+        else
+        {
+          $objects[$key]->css_styledimension = ' style="height:'
+            .$imgHeight
+            .'px;width:'
+            .$imgWidth
+            .'px;" ';
+        }
       }
 
       switch ($this->getConfig('image_position'))
@@ -1078,7 +1107,14 @@ class modJoomImagesHelper extends joominterface
    */
   function renderCSS()
   {
-    $containerwidth=floor(100/$this->getConfig('img_per_row'));
+    if($this->getConfig('responsive') == 1)
+    {
+      $containerwidth='auto';
+    }
+    else
+    {
+      $containerwidth=floor(100/$this->getConfig('img_per_row'));
+    }
     $csstag=$this->getConfig("csstag");
 
     $dirhoriz='text-align:'.$this->getConfig('dir_hor').'!important;'."\n";
@@ -1138,10 +1174,20 @@ class modJoomImagesHelper extends joominterface
 
     $css="";
     // Container
-    $css .= '.'.$csstag.'imgct {'."\n"
-          . 'width:'.$containerwidth.'% !important;'."\n"
+    if($this->getConfig('responsive') == 1)
+    {
+      $css .= '.'.$csstag.'imgct {'."\n"
+	      . 'max-width:100%;'."\n"
           . $csscont
           .'}'."\n";
+    }
+    else
+    {
+      $css .= '.'.$csstag.'imgct {'."\n"
+            . 'width:'.$containerwidth.'% !important;'."\n"
+            . $csscont
+            .'}'."\n";
+    }
 
     // Image
     if(!empty($cssimg))

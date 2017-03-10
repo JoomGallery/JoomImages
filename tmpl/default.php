@@ -11,6 +11,36 @@ $count_img_per_row = 0;
 $csstag = $joomimgObj->getConfig("csstag");
 $countobjects = count($imgobjects);
 
+// responsive view  
+if($joomimgObj->getConfig('responsive') == 1):
+?>
+<div class="<?php echo $csstag; ?>main">
+<?php
+  $imgct=0;
+  if($countobjects > 0):
+    foreach($imgobjects as $obj):
+      $imgct++;
+      // $count_img_per_row++;
+      ?>
+      <div class="<?php echo $csstag;?>imgct">
+      <?php  $count_img_per_row++;
+      echo $obj->imgelem; ?>
+      </div>
+<?php    endforeach;
+    // close last row
+?> <div class="joomimg_clr"></div>
+<?php
+
+  else:
+    if($joomimgObj->getConfig('show_empty_message')):
+      echo JText::_('JINO_PICTURES_AVAILABLE');
+    endif;
+  endif;
+?>
+</div>
+<?php
+// default view
+else:
 if($joomimgObj->getConfig('sectiontableentry') == 1 )
 {
   $rowclass = $sectiontableentry.$secnr." ".$csstag."row";
@@ -145,3 +175,5 @@ if($joomimgObj->getConfig('pagination')):
 endif;
 ?>
 </div>
+<?php
+endif;

@@ -5,7 +5,7 @@ defined('_JEXEC') or die('Restricted access');
 // Load jQuery
 JHtml::_('jquery.framework');
 
-// Load Freewall CSS and Javascript
+// Load Justified Gallery's CSS and Javascript
 $doc = JFactory::getDocument();
 $doc->addStyleSheet(JURI::base().'media/mod_joomimg/css/justifiedGallery'.(JFactory::getConfig()->get('debug') ? '' : '.min').'.css');
 $doc->addScript(JURI::base().'media/mod_joomimg/js/jquery.justifiedGallery'.(JFactory::getConfig()->get('debug') ? '' : '.min').'.js');

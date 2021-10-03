@@ -77,6 +77,7 @@
         <option value="ntcount DESC">JISORTNAMECOUNTDESC</option>
         <option value="ntcount ASC">JISORTNAMECOUNTASC</option>      
       </field>
+	<field name="limitselection" type="text" default="" label="JILIMITSLECTION" description="JILIMITSLECTIONDESC" showon="sorting!:rand()" />
       <field name="resultbytime" type="list" default="0" label="JIRESULTBYTIME" description="JIRESULTBYTIMEDESCR">
         <option value="0">JINO</option>
         <option value="99">JIRESULTTIMEFREE</option>

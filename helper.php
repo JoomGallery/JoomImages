@@ -147,6 +147,7 @@ class modJoomImagesHelper extends joominterface
     $this->addConfig('group', 'joomgallerymodji');
     $this->addConfig('Itemid', $params->get('Itemid', ''));
     $this->addConfig('limit', $params->get('limit', 4));
+	$this->addConfig('limitselection', $params->get('limitselection', 0));
     $this->addConfig('img_per_row', $params->get('img_per_row', 2));
     $this->addConfig('sorting', $params->get('sorting', 'rand()'));
     $this->addConfig('resultbytime', $params->get('resultbytime', 0));
@@ -545,17 +546,15 @@ class modJoomImagesHelper extends joominterface
     }
 
     $objects = $db->loadObjectList('id');
-	//var_dump($objects);
+
 	
 	
-			//If sort order was random we need to shuffle the recieved rows
+		//If sort order was random we need to shuffle the recieved rows
 		//And set the number of items to show .
-		//$Number_of_rows = $params->get('sum_view');
-		$Number_of_rows = 1;
-		//if ($params->get('download_ordering_direction') =='Random') { 
-			shuffle($objects);
-			$Number_of_rows = $Number_of_rows ;
-		//}
+	if ( $this->getConfig('limitselection')!=0 AND $sorting!="rand()" ){
+		$Number_of_rows = $this->getConfig('limitselection');
+		
+		shuffle($objects);
 
 		//delete rows from array to get to correct number of rows
 		$i= 0;
@@ -564,6 +563,7 @@ class modJoomImagesHelper extends joominterface
 			$i++;
 		}
 		$objects = array_merge($objects); //to reset row numbers
+	}
 	
 	
 	

@@ -518,6 +518,25 @@ class modJoomImagesHelper extends joominterface
     }
 
     $objects = $db->loadObjectList('id');
+    
+    			//If sort order was random we need to shuffle the recieved rows
+          //And set the number of items to show .
+          //$Number_of_rows = $params->get('sum_view');
+          $Number_of_rows = 1;
+          //if ($params->get('download_ordering_direction') =='Random') { 
+            shuffle($objects);
+            $Number_of_rows = $Number_of_rows ;
+          //}
+
+          //delete rows from array to get to correct number of rows
+          $i= 0;
+          while (count($objects) >$Number_of_rows) {
+            unset($objects[$i]);
+            $i++;
+          }
+          $objects = array_merge($objects); //to reset row numbers
+
+    
 
     if ($error = $db->getErrorMsg())
     {
